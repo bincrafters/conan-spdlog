@@ -8,6 +8,7 @@ class spdlogConan(ConanFile):
     name = "spdlog"
     version = "0.14.0"
     license = "MIT"
+    exports = ["LICENSE.md"]    
     description = "Very fast, header only, C++ logging library."
     url = "https://github.com/bincrafters/conan-spdlog"
     options = {"fmt_external": [True, False]}
