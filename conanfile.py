@@ -6,9 +6,9 @@ from conans import ConanFile, tools
 
 class spdlogConan(ConanFile):
     name = "spdlog"
-    version = "0.14.0"
+    version = "0.16.3"
     license = "MIT"
-    exports = ["LICENSE.md"]    
+    exports = ["LICENSE.md"]
     description = "Very fast, header only, C++ logging library."
     url = "https://github.com/bincrafters/conan-spdlog"
     options = {"fmt_external": [True, False]}
