@@ -6,12 +6,13 @@ from conans import ConanFile, tools
 
 class spdlogConan(ConanFile):
     name = "spdlog"
-    version = "0.14.0"
+    version = "0.16.3"
     license = "MIT"
     exports = ["LICENSE.md"]
     settings = "os"
     description = "Very fast, header only, C++ logging library."
     url = "https://github.com/bincrafters/conan-spdlog"
+    homepage = "https://github.com/gabime/spdlog/"
     options = {"fmt_external": [True, False]}
     default_options = "fmt_external=False"
 
