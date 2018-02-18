@@ -18,7 +18,7 @@ class spdlogConan(ConanFile):
 
     def requirements(self):
         if self.options.fmt_external:
-            self.requires("fmt/[>=4.0.0]@bincrafters/stable")
+            self.requires("fmt/4.1.0@bincrafters/stable")
 
     def source(self):
         base_url = "https://github.com/gabime/spdlog"
