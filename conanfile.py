@@ -6,7 +6,7 @@ from conans import ConanFile, tools
 
 class spdlogConan(ConanFile):
     name = "spdlog"
-    version = "0.16.3"
+    version = "0.14.0"
     license = "MIT"
     exports = ["LICENSE.md"]
     settings = "os"
