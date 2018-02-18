@@ -12,12 +12,13 @@ class spdlogConan(ConanFile):
     settings = "os"
     description = "Very fast, header only, C++ logging library."
     url = "https://github.com/bincrafters/conan-spdlog"
+    homepage = "https://github.com/gabime/spdlog/"
     options = {"fmt_external": [True, False]}
     default_options = "fmt_external=False"
 
     def requirements(self):
         if self.options.fmt_external:
-            self.requires("fmt/[>=4.0.0]@bincrafters/stable")
+            self.requires("fmt/4.1.0@bincrafters/stable")
 
     def source(self):
         base_url = "https://github.com/gabime/spdlog"
