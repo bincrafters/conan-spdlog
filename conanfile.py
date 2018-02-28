@@ -13,7 +13,7 @@ class spdlogConan(ConanFile):
     exports_sources = ["CMakeLists.txt"]
     source_subfolder = "source_subfolder"
     generators = "cmake"
-    settings = "os", "arch", "compiler", "build_type"
+    settings = "os"
     options = {"fmt_external": [True, False]}
     default_options = "fmt_external=False"
 
