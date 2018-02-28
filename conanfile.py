@@ -8,12 +8,15 @@ import os
 class spdlogConan(ConanFile):
     name = "spdlog"
     version = "0.14.0"
+    description = "Fast C++ logging library"
+    url = "https://github.com/bincrafters/conan-spdlog"
+    homepage = "https://github.com/gabime/spdlog"
     license = "MIT"
     exports = ["LICENSE.md"]
     exports_sources = ["CMakeLists.txt"]
     source_subfolder = "source_subfolder"
     generators = "cmake"
-    settings = "os"
+    settings = "os", "arch", "compiler", "build_type"
     options = {"fmt_external": [True, False]}
     default_options = "fmt_external=False"
 
@@ -44,4 +47,4 @@ class spdlogConan(ConanFile):
         if self.settings.os == "Linux":
             self.cpp_info.libs.append("pthread")
         self.info.header_only()
-    
+            
