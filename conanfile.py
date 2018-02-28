@@ -46,5 +46,6 @@ class spdlogConan(ConanFile):
             self.cpp_info.defines.append("SPDLOG_FMT_EXTERNAL")
         if self.settings.os == "Linux":
             self.cpp_info.libs.append("pthread")
-        self.info.header_only()
             
+    def package_id(self):
+        self.info.header_only()
