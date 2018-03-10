@@ -18,7 +18,7 @@ class spdlogConan(ConanFile):
     generators = "cmake"
     settings = "os", "arch", "compiler", "build_type"
     options = {"fmt_external": [True, False]}
-    default_options = "fmt_external=False"
+    default_options = "fmt_external=True"
 
     def requirements(self):
         if self.options.fmt_external:
@@ -40,6 +40,8 @@ class spdlogConan(ConanFile):
         cmake.configure()
         cmake.install()
         self.copy(pattern="LICENSE", dst='licenses', src=self.source_subfolder)
+        self.copy(pattern="spdlogConfig*.cmake")
+        self.copy(pattern="spdlogConfig*.cmake", src=self.source_subfolder)
 
     def package_info(self):
         if self.options.fmt_external:
