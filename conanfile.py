@@ -15,6 +15,7 @@ class spdlogConan(ConanFile):
     exports = ["LICENSE.md"]
     exports_sources = ["CMakeLists.txt"]
     source_subfolder = "source_subfolder"
+    install_subfolder = "install_subfolder"
     generators = "cmake"
     settings = "os", "arch", "compiler", "build_type"
     options = {"fmt_external": [True, False]}
@@ -32,16 +33,17 @@ class spdlogConan(ConanFile):
     
     def build(self):
         cmake = CMake(self)
-        cmake.configure()
+        definitions = {
+            "CMAKE_INSTALL_PREFIX": self.install_subfolder,
+            "SPDLOG_BUILD_TESTING": False
+        }
+        cmake.configure(defs=definitions)
         cmake.build()
-        
-    def package(self):
-        cmake = CMake(self)
-        cmake.configure()
         cmake.install()
-        self.copy(pattern="LICENSE", dst='licenses', src=self.source_subfolder)
-        self.copy(pattern="spdlogConfig*.cmake")
-        self.copy(pattern="spdlogConfig*.cmake", src=self.source_subfolder)
+        
+    def package(self): 
+        self.copy("*.h", dst="include", src=os.path.join(self.install_subfolder, "include"))
+        self.copy(pattern="LICENSE", dst="licenses", src=self.source_subfolder)
 
     def package_info(self):
         if self.options.fmt_external:
