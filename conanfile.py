@@ -35,8 +35,7 @@ class spdlogConan(ConanFile):
         cmake.definitions["SPDLOG_BUILD_TESTING"] = False
         cmake.configure()
         cmake.build()
-        cmake.install()
-        
+
     def package(self): 
         self.copy("*.h", dst="include", src=os.path.join(self.source_subfolder, "include"))
         self.copy(pattern="LICENSE", dst="licenses", src=self.source_subfolder)
