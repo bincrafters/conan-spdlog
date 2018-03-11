@@ -29,12 +29,6 @@ class spdlogConan(ConanFile):
         tools.get("{0}/archive/v{1}.tar.gz".format(source_url, self.version))
         extracted_dir = self.name + "-" + self.version
         os.rename(extracted_dir, self.source_subfolder)
-    
-    def build(self):
-        cmake = CMake(self)
-        cmake.definitions["SPDLOG_BUILD_TESTING"] = False
-        cmake.configure()
-        cmake.build()
 
     def package(self): 
         self.copy("*.h", dst="include", src=os.path.join(self.source_subfolder, "include"))
