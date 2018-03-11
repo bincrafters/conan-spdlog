@@ -10,6 +10,6 @@ int main(int, char* [])
 	console->error("Some error message with arg{}..", 1);
 	console->warn("Easy padding in numbers like {:08d}", 12);
 #ifdef SPDLOG_FMT_EXTERNAL
-	fmt::print("The format library says the answer is {}", 42);
+	fmt::print("The format library says the answer is {}\n", 42);
 #endif
 }
