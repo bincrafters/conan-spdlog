@@ -33,11 +33,9 @@ class spdlogConan(ConanFile):
     
     def build(self):
         cmake = CMake(self)
-        definitions = {
-            "CMAKE_INSTALL_PREFIX": self.install_subfolder,
-            "SPDLOG_BUILD_TESTING": False
-        }
-        cmake.configure(defs=definitions)
+        cmake.definitions["CMAKE_INSTALL_PREFIX"] = self.install_subfolder
+        cmake.definitions["SPDLOG_BUILD_TESTING"] = False
+        cmake.configure()
         cmake.build()
         cmake.install()
         
