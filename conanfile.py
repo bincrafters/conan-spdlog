@@ -30,15 +30,20 @@ class spdlogConan(ConanFile):
         extracted_dir = self.name + "-" + self.version
         os.rename(extracted_dir, self.source_subfolder)
 
-    def build(self):
+    def configure_cmake(self):
         cmake = CMake(self)
         cmake.definitions["SPDLOG_BUILD_TESTING"] = False
         cmake.configure()
-        cmake.build()
-        cmake.install()
+        return cmake
 
-    def package(self): 
-        self.copy(pattern="LICENSE", dst="licenses", src=self.source_subfolder)
+    def build(self):
+        cmake = self.configure_cmake()
+        cmake.build()
+        
+    def package(self):
+        cmake = self.configure_cmake()
+        cmake.install()
+        self.copy(pattern="LICENSE", dst='licenses', src=self.source_subfolder)
 
     def package_info(self):
         if self.options.fmt_external:
