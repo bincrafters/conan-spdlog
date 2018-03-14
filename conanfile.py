@@ -18,7 +18,7 @@ class spdlogConan(ConanFile):
     generators = "cmake"
     settings = "os", "arch", "compiler", "build_type"
     options = {"fmt_external": [True, False]}
-    default_options = "fmt_external=False"
+    default_options = "fmt_external=True"
 
     def requirements(self):
         if self.options.fmt_external:
@@ -29,17 +29,16 @@ class spdlogConan(ConanFile):
         tools.get("{0}/archive/v{1}.tar.gz".format(source_url, self.version))
         extracted_dir = self.name + "-" + self.version
         os.rename(extracted_dir, self.source_subfolder)
-    
+
     def build(self):
         cmake = CMake(self)
+        cmake.definitions["SPDLOG_BUILD_TESTING"] = False
         cmake.configure()
         cmake.build()
-        
-    def package(self):
-        cmake = CMake(self)
-        cmake.configure()
         cmake.install()
-        self.copy(pattern="LICENSE", dst='licenses', src=self.source_subfolder)
+
+    def package(self): 
+        self.copy(pattern="LICENSE", dst="licenses", src=self.source_subfolder)
 
     def package_info(self):
         if self.options.fmt_external:
