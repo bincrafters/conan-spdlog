@@ -7,7 +7,7 @@ import os
 
 class spdlogConan(ConanFile):
     name = "spdlog"
-    version = "0.16.3"
+    version = "0.17.0"
     description = "Fast C++ logging library"
     url = "https://github.com/bincrafters/conan-spdlog"
     homepage = "https://github.com/gabime/spdlog"
@@ -39,7 +39,7 @@ class spdlogConan(ConanFile):
     def build(self):
         cmake = self.configure_cmake()
         cmake.build()
-        
+
     def package(self):
         cmake = self.configure_cmake()
         cmake.install()
@@ -50,6 +50,6 @@ class spdlogConan(ConanFile):
             self.cpp_info.defines.append("SPDLOG_FMT_EXTERNAL")
         if self.settings.os == "Linux":
             self.cpp_info.libs.append("pthread")
-            
+
     def package_id(self):
         self.info.header_only()
