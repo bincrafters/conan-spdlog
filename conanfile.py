@@ -5,12 +5,13 @@ from conans import ConanFile, CMake, tools
 import os
 
 
-class spdlogConan(ConanFile):
+class SpdlogConan(ConanFile):
     name = "spdlog"
-    version = "0.17.0"
+    version = "1.1.0"
     description = "Fast C++ logging library"
     url = "https://github.com/bincrafters/conan-spdlog"
     homepage = "https://github.com/gabime/spdlog"
+    author = "Bincrafters <bincrafters@gmail.com>"
     license = "MIT"
     exports = ["LICENSE.md"]
     exports_sources = ["CMakeLists.txt"]
@@ -22,7 +23,7 @@ class spdlogConan(ConanFile):
 
     def requirements(self):
         if self.options.fmt_external:
-            self.requires("fmt/4.1.0@bincrafters/stable")
+            self.requires("fmt/5.1.0@bincrafters/stable")
 
     def source(self):
         source_url = "https://github.com/gabime/spdlog"
@@ -32,7 +33,9 @@ class spdlogConan(ConanFile):
 
     def configure_cmake(self):
         cmake = CMake(self)
+        cmake.definitions["SPDLOG_BUILD_EXAMPLES"] = False
         cmake.definitions["SPDLOG_BUILD_TESTING"] = False
+        cmake.definitions["SPDLOG_BUILD_BENCH"] = False
         cmake.configure()
         return cmake
 
