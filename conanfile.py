@@ -18,12 +18,10 @@ class SpdlogConan(ConanFile):
     _source_subfolder = "source_subfolder"
     generators = "cmake"
     settings = "os", "arch", "compiler", "build_type"
-    options = {"fmt_external": [True, False]}
-    default_options = {"fmt_external": True}
+    _source_subfolder = "source_subfolder"
 
     def requirements(self):
-        if self.options.fmt_external:
-            self.requires("fmt/5.1.0@bincrafters/stable")
+        self.requires("fmt/5.1.0@bincrafters/stable")
 
     def source(self):
         source_url = "https://github.com/gabime/spdlog"
@@ -49,8 +47,7 @@ class SpdlogConan(ConanFile):
         self.copy(pattern="LICENSE", dst='licenses', src=self._source_subfolder)
 
     def package_info(self):
-        if self.options.fmt_external:
-            self.cpp_info.defines.append("SPDLOG_FMT_EXTERNAL")
+        self.cpp_info.defines.append("SPDLOG_FMT_EXTERNAL")
         if self.settings.os == "Linux":
             self.cpp_info.libs.append("pthread")
 
