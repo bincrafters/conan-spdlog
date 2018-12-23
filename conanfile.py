@@ -34,6 +34,7 @@ class SpdlogConan(ConanFile):
         cmake.definitions["SPDLOG_BUILD_EXAMPLES"] = False
         cmake.definitions["SPDLOG_BUILD_TESTING"] = False
         cmake.definitions["SPDLOG_BUILD_BENCH"] = False
+        cmake.definitions["SPDLOG_FMT_EXTERNAL"] = True
         cmake.configure()
         return cmake
 
