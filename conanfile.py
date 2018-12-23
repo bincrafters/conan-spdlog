@@ -34,6 +34,7 @@ class SpdlogConan(ConanFile):
         cmake.definitions["SPDLOG_BUILD_EXAMPLES"] = False
         cmake.definitions["SPDLOG_BUILD_TESTING"] = False
         cmake.definitions["SPDLOG_BUILD_BENCH"] = False
+        cmake.definitions["SPDLOG_FMT_EXTERNAL"] = True
         cmake.configure()
         return cmake
 
@@ -44,6 +45,11 @@ class SpdlogConan(ConanFile):
     def package(self):
         cmake = self._configure_cmake()
         cmake.install()
+        tools.replace_in_file(os.path.join(self.package_folder, "lib", "cmake", "spdlog", "spdlogConfig.cmake"),
+                              'add_library(spdlog::spdlog INTERFACE IMPORTED)',
+                              'add_library(spdlog::spdlog INTERFACE IMPORTED)\n'
+                              'set_target_properties(spdlog::spdlog PROPERTIES\n'
+                              'INTERFACE_COMPILE_DEFINITIONS "SPDLOG_FMT_EXTERNAL")')
         self.copy(pattern="LICENSE", dst='licenses', src=self._source_subfolder)
 
     def package_info(self):
