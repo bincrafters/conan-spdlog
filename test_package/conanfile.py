@@ -10,9 +10,11 @@ class TestPackageConan(ConanFile):
     generators = "cmake"
 
     def build(self):
-        cmake = CMake(self)
-        cmake.configure()
-        cmake.build()
+        for use_find_package in [True, False]:
+            cmake = CMake(self)
+            cmake.definitions['USE_FIND_PACKAGE'] = use_find_package
+            cmake.configure()
+            cmake.build()
 
     def test(self):
         bin_path = os.path.join("bin", "test_package")
