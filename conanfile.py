@@ -12,6 +12,7 @@ class SpdlogConan(ConanFile):
     url = "https://github.com/bincrafters/conan-spdlog"
     homepage = "https://github.com/gabime/spdlog"
     author = "Bincrafters <bincrafters@gmail.com>"
+    topics = ("conan", "spdlog", "logging", "header-only")
     license = "MIT"
     exports = ["LICENSE.md"]
     exports_sources = ["CMakeLists.txt"]
@@ -41,14 +42,13 @@ class SpdlogConan(ConanFile):
         cmake.build()
 
     def package(self):
+        self.copy(pattern="LICENSE", dst='licenses', src=self._source_subfolder)
         cmake = self._configure_cmake()
         cmake.install()
-        tools.replace_in_file(os.path.join(self.package_folder, "lib", "cmake", "spdlog", "spdlogConfig.cmake"),
-                              'add_library(spdlog::spdlog INTERFACE IMPORTED)',
-                              'add_library(spdlog::spdlog INTERFACE IMPORTED)\n'
-                              'set_target_properties(spdlog::spdlog PROPERTIES\n'
-                              'INTERFACE_COMPILE_DEFINITIONS "SPDLOG_FMT_EXTERNAL")')
-        self.copy(pattern="LICENSE", dst='licenses', src=self._source_subfolder)
+        tools.replace_in_file(os.path.join(self.package_folder, "lib", "cmake", "spdlog", "spdlogConfigVersion.cmake"),
+                              '# check',
+                              'return() #')
+
 
     def package_info(self):
         self.cpp_info.defines.append("SPDLOG_FMT_EXTERNAL")
