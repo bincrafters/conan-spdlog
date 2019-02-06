@@ -7,7 +7,7 @@ import os
 
 class SpdlogConan(ConanFile):
     name = "spdlog"
-    version = "1.3.0"
+    version = "1.3.1"
     description = "Fast C++ logging library"
     url = "https://github.com/bincrafters/conan-spdlog"
     homepage = "https://github.com/gabime/spdlog"
