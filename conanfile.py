@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from conans import ConanFile, CMake, tools
 import os
+
+from conans import CMake, ConanFile, tools
 
 
 class SpdlogConan(ConanFile):
     name = "spdlog"
-    version = "1.3.1"
+    version = "1.4.1"
     description = "Fast C++ logging library"
     url = "https://github.com/bincrafters/conan-spdlog"
     homepage = "https://github.com/gabime/spdlog"
@@ -24,16 +25,18 @@ class SpdlogConan(ConanFile):
         self.requires("fmt/5.3.0@bincrafters/stable")
 
     def source(self):
-        tools.get("{0}/archive/v{1}.tar.gz".format(self.homepage, self.version))
+        tools.get("{0}/archive/v{1}.tar.gz".format(self.homepage,
+                                                   self.version))
         extracted_dir = self.name + "-" + self.version
         os.rename(extracted_dir, self._source_subfolder)
 
     def _configure_cmake(self):
         cmake = CMake(self)
-        cmake.definitions["SPDLOG_BUILD_EXAMPLES"] = False
-        cmake.definitions["SPDLOG_BUILD_TESTING"] = False
+        cmake.definitions["SPDLOG_BUILD_EXAMPLE"] = False
+        cmake.definitions["SPDLOG_BUILD_TESTS"] = False
         cmake.definitions["SPDLOG_BUILD_BENCH"] = False
         cmake.definitions["SPDLOG_FMT_EXTERNAL"] = True
+        cmake.definitions["SPDLOG_INSTALL"] = True
         cmake.configure()
         return cmake
 
@@ -42,13 +45,10 @@ class SpdlogConan(ConanFile):
         cmake.build()
 
     def package(self):
-        self.copy(pattern="LICENSE", dst='licenses', src=self._source_subfolder)
+        self.copy(
+            pattern="LICENSE", dst='licenses', src=self._source_subfolder)
         cmake = self._configure_cmake()
         cmake.install()
-        tools.replace_in_file(os.path.join(self.package_folder, "lib", "cmake", "spdlog", "spdlogConfigVersion.cmake"),
-                              '# check',
-                              'return() #')
-
 
     def package_info(self):
         self.cpp_info.defines.append("SPDLOG_FMT_EXTERNAL")
