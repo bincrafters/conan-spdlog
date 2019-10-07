@@ -20,8 +20,10 @@ class SpdlogConan(ConanFile):
     exports_sources = ["CMakeLists.txt", "patches/*"]
     generators = "cmake"
     settings = "os", "arch", "compiler", "build_type"
-    options = {"shared": [True, False], "fPIC": [True, False], "header_only": [True, False]}
-    default_options = {"shared": False, "fPIC": True, "header_only": False}
+    options = {"shared": [True, False], "fPIC": [True, False],
+               "header_only": [True, False], "wchar_support": [True, False]}
+    default_options = {"shared": False, "fPIC": True, "header_only": False,
+                       "wchar_support": False}
 
     @property
     def _source_subfolder(self):
@@ -37,6 +39,8 @@ class SpdlogConan(ConanFile):
             del self.options.fPIC
         elif self.settings.os == "Windows" and self.options.shared:
             raise ConanInvalidConfiguration("spdlog shared lib is not yet supported under windows")
+        if self.settings.os != "Windows" and self.options.wchar_support:
+            raise ConanInvalidConfiguration("wchar is not yet supported under windows")
 
     def requirements(self):
         self.requires("fmt/5.3.0@bincrafters/stable")
@@ -55,6 +59,7 @@ class SpdlogConan(ConanFile):
         cmake.definitions["SPDLOG_BUILD_BENCH"] = False
         cmake.definitions["SPDLOG_FMT_EXTERNAL"] = True
         cmake.definitions["SPDLOG_BUILD_SHARED"] = not self.options.header_only and self.options.shared
+        cmake.definitions["SPDLOG_WCHAR_SUPPORT"] = self.options.wchar_support
         cmake.definitions["SPDLOG_INSTALL"] = True
         cmake.configure()
         return cmake
@@ -81,5 +86,7 @@ class SpdlogConan(ConanFile):
         else:
             self.cpp_info.libs = tools.collect_libs(self)
             self.cpp_info.defines = ["SDPLOG_COMPILED_LIB", "SPDLOG_FMT_EXTERNAL"]
+        if self.options.wchar_support:
+            self.cpp_info.defines.append("SPDLOG_WCHAR_TO_UTF8_SUPPORT")
         if tools.os_info.is_linux:
             self.cpp_info.libs.append("pthread")
