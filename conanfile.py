@@ -49,7 +49,9 @@ class SpdlogConan(ConanFile):
     def _configure_cmake(self):
         cmake = CMake(self)
         cmake.definitions["SPDLOG_BUILD_EXAMPLE"] = False
+        cmake.definitions["SPDLOG_BUILD_EXAMPLE_HO"] = False
         cmake.definitions["SPDLOG_BUILD_TESTS"] = False
+        cmake.definitions["SPDLOG_BUILD_TESTS_HO"] = False
         cmake.definitions["SPDLOG_BUILD_BENCH"] = False
         cmake.definitions["SPDLOG_FMT_EXTERNAL"] = True
         cmake.definitions["SPDLOG_BUILD_SHARED"] = not self.options.header_only and self.options.shared
