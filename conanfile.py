@@ -22,9 +22,10 @@ class SpdlogConan(ConanFile):
     settings = "os", "arch", "compiler", "build_type"
     options = {"shared": [True, False], "fPIC": [True, False],
                "header_only": [True, False], "wchar_support": [True, False],
-               "wchar_filenames": [True, False]}
+               "wchar_filenames": [True, False], "no_exceptions": [True, False]}
     default_options = {"shared": False, "fPIC": True, "header_only": False,
-                       "wchar_support": False, "wchar_filenames": False}
+                       "wchar_support": False, "wchar_filenames": False,
+                       "no_exceptions": False}
 
     @property
     def _source_subfolder(self):
@@ -64,6 +65,7 @@ class SpdlogConan(ConanFile):
         cmake.definitions["SPDLOG_WCHAR_SUPPORT"] = self.options.wchar_support
         cmake.definitions["SPDLOG_WCHAR_FILENAMES"] = self.options.wchar_filenames
         cmake.definitions["SPDLOG_INSTALL"] = True
+        cmake.definitions["SPDLOG_NO_EXCEPTIONS"] = self.options.no_exceptions
         cmake.configure()
         return cmake
 
@@ -93,5 +95,7 @@ class SpdlogConan(ConanFile):
             self.cpp_info.defines.append("SPDLOG_WCHAR_TO_UTF8_SUPPORT")
         if self.options.wchar_filenames:
             self.cpp_info.defines.append("SPDLOG_WCHAR_FILENAMES")
+        if self.options.no_exceptions:
+            self.cpp_info.defines.append("SPDLOG_NO_EXCEPTIONS")
         if tools.os_info.is_linux:
             self.cpp_info.libs.append("pthread")
