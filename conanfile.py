@@ -21,7 +21,7 @@ class SpdlogConan(ConanFile):
     _source_subfolder = "source_subfolder"
 
     def requirements(self):
-        self.requires("fmt/5.3.0@bincrafters/stable")
+        self.requires("fmt/5.3.0")
 
     def source(self):
         tools.get("{0}/archive/v{1}.tar.gz".format(self.homepage, self.version))
