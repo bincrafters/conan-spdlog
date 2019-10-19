@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 import os
 
 from conans import CMake, ConanFile, tools
@@ -9,7 +6,7 @@ from conans.errors import ConanInvalidConfiguration
 
 class SpdlogConan(ConanFile):
     name = "spdlog"
-    version = "1.4.1"
+    version = "1.4.2"
     description = "Fast C++ logging library"
     url = "https://github.com/bincrafters/conan-spdlog"
     homepage = "https://github.com/gabime/spdlog"
@@ -46,7 +43,7 @@ class SpdlogConan(ConanFile):
                 raise ConanInvalidConfiguration("wchar is not yet supported under windows")
 
     def requirements(self):
-        self.requires("fmt/5.3.0@bincrafters/stable")
+        self.requires("fmt/6.0.0@bincrafters/stable")
 
     def source(self):
         tools.get("{0}/archive/v{1}.tar.gz".format(self.homepage, self.version))
@@ -89,8 +86,11 @@ class SpdlogConan(ConanFile):
         if self.options.header_only:
             self.cpp_info.defines = ["SPDLOG_HEADER_ONLY", "SPDLOG_FMT_EXTERNAL"]
         else:
-            self.cpp_info.libdirs = ["lib/spdlog"]
-            self.cpp_info.libs = ["spdlog"]
+            if self.settings.build_type == "Release":
+                self.cpp_info.libs = ["spdlog"]
+            else:
+                self.cpp_info.libs = ["spdlogd"]
+            
             self.cpp_info.defines = ["SPDLOG_COMPILED_LIB", "SPDLOG_FMT_EXTERNAL"]
         if self.options.wchar_support:
             self.cpp_info.defines.append("SPDLOG_WCHAR_TO_UTF8_SUPPORT")
