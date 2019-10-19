@@ -87,10 +87,11 @@ class SpdlogConan(ConanFile):
 
     def package_info(self):
         if self.options.header_only:
-            self.cpp_info.defines = ["SDPLOG_HEADER_ONLY", "SPDLOG_FMT_EXTERNAL"]
+            self.cpp_info.defines = ["SPDLOG_HEADER_ONLY", "SPDLOG_FMT_EXTERNAL"]
         else:
-            self.cpp_info.libs = tools.collect_libs(self)
-            self.cpp_info.defines = ["SDPLOG_COMPILED_LIB", "SPDLOG_FMT_EXTERNAL"]
+            self.cpp_info.libdirs = ["lib/spdlog"]
+            self.cpp_info.libs = ["spdlog"]
+            self.cpp_info.defines = ["SPDLOG_COMPILED_LIB", "SPDLOG_FMT_EXTERNAL"]
         if self.options.wchar_support:
             self.cpp_info.defines.append("SPDLOG_WCHAR_TO_UTF8_SUPPORT")
         if self.options.wchar_filenames:
